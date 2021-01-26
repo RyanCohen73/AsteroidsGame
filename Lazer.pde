@@ -23,5 +23,9 @@ class Lazer extends Floater {
     stroke(255, 255, 255);
     ellipse((float)this.myCenterX, (float)this.myCenterY, 5, 5);
   }
+  public void move() { 
+    this.myCenterX += this.myXspeed;    
+    this.myCenterY += this.myYspeed; 
+  } 
 
 }

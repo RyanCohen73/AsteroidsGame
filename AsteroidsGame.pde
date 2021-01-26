@@ -109,14 +109,12 @@ public void draw() {
         this.score += 100;
       }
     }
-
+    
+    lazer.move();
+    lazer.show();
     if (lazer.getCenterX() <= 0 || lazer.getCenterX() >= this.screenSizeX ||
       lazer.getCenterY() <= 0 || lazer.getCenterY() >= this.screenSizeY) {
       this.lazerList.remove(i-1);
-    } 
-    else {
-      lazer.move();
-      lazer.show();
     }
   }
   
