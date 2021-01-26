@@ -61,12 +61,7 @@ public void destroyAsteroids() {
 public void displayAsteroids(){
   for (int j = this.asteroidList.size(); j > 0; j--) {
     Asteroid asteroid = this.asteroidList.get(j-1);
-    if (
-      dist( (float)this.spaceship.getCenterX(),
-      (float)this.spaceship.getCenterY(),
-      (float)asteroid.getCenterX(),
-      (float)asteroid.getCenterY()
-      ) < (float) 25){
+    if (detectCollision(this.spaceship, asteroid, 25)){
       this.asteroidList.remove(j-1);
       this.score = 0;
       this.lives -= 1;
@@ -94,12 +89,7 @@ public void displayLazers() {
     
     for (int j = this.asteroidList.size(); j > 0; j--) {
       Asteroid asteroid = this.asteroidList.get(j-1);
-      if (
-        dist( (float)lazer.getCenterX(),
-        (float)lazer.getCenterY(),
-        (float)asteroid.getCenterX(),
-        (float)asteroid.getCenterY()
-        ) < (float) 15){
+      if (detectCollision(lazer, asteroid, 15)){
         this.asteroidList.remove(j-1);
         this.lazerList.remove(i-1);
         if (score == highScore){
@@ -120,6 +110,14 @@ public void displayLazers() {
   if (lazerList.size() >= 5) {
         lazerList.remove(0);
   }
+}
+
+public boolean detectCollision(Floater floaterA, Floater floaterB, int distance) {
+  return dist( (float)floaterA.getCenterX(),
+    (float)floaterA.getCenterY(),
+    (float)floaterB.getCenterX(),
+    (float)floaterB.getCenterY()
+    ) < (float) distance;
 }
 
 //TEXT METHODS
