@@ -15,7 +15,20 @@ ArrayList<Asteroid> asteroidList = new ArrayList<Asteroid>();
 ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
  
+public void startGame() {
+  destroyLazers();
+  destroyAsteroids();
+  createAsteroids(0);
+  this.spaceship.startingPos();
+  this.lives = 5;
+  this.score = 0;
+}
 
+public void loseGame() {
+  if (this.lives == 0) {
+    startGame();
+  }
+}
 //STAR METHODS
 public void createStars() {
   for (int i = 0; i < this.stars.length; i++){
@@ -175,6 +188,8 @@ public void draw() {
   this.spaceship.move();
   this.spaceship.show();
   
+  loseGame();
+  
   
   //for (Asteroid asteroid : this.asteroidList) {
   
@@ -182,43 +197,37 @@ public void draw() {
 }
 
 public void keyPressed() {
- if (key == 'h') {
-   this.spaceship.hyperspace();
-   destroyLazers();
- }
- if (key == 'd') {
-   this.spaceship.rotateClockwise();
- }
- if (key == 'a') {
-   this.spaceship.rotateCounterClockwise();
- }
- if (key == 'w') {
-   this.spaceship.accelerate(2.0);
- }
- if (key == 's') {
-   this.spaceship.accelerate(-2.0);
- }
- if (key == ' ') {
-   this.lazerList.add(new Lazer(this.spaceship));
- }
- if (key == 'x') {
-   this.spaceship.stopMove();
- }
- if (key == '3') {
-   destroyLazers();
+  if (key == 'h') {
+    this.spaceship.hyperspace();
+    destroyLazers();
+  } 
+  if (key == 'd') {
+    this.spaceship.rotateClockwise();
+  }
+  if (key == 'a') {
+    this.spaceship.rotateCounterClockwise();
+  }
+  if (key == 'w') {
+    this.spaceship.accelerate(2.0);
+  }
+  if (key == 's') {
+    this.spaceship.accelerate(-2.0);
+  }
+  if (key == ' ') {
+    this.lazerList.add(new Lazer(this.spaceship));
+  }
+  if (key == 'x') {
+    this.spaceship.stopMove();
+  }
+  if (key == '3') {
+    destroyLazers();
    //destroyFloater(this.lazerList);
- }
- if (key == '2') {
-   destroyAsteroids();
+  }
+  if (key == '2') {
+    destroyAsteroids();
    //destroyFloater(this.asteroidList);
- }
- if (key == '1') {
-   destroyLazers();
-   destroyAsteroids();
-   createAsteroids(0);
-   //this.spaceship.hyperspace();
-   this.spaceship.startingPos();
-  
-   this.score = 0;
- }
+  }
+  if (key == '1') {
+    startGame();
+  }
 }
