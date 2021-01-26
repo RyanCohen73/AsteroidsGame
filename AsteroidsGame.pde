@@ -27,7 +27,7 @@ public void createStars() {
 
 //*
 public void createAsteroids(int input) {
-  int numofAsteroid = this.numofAsteroids + input
+  int numofAsteroid = this.numofAsteroids + input;
   for(int i = 0; i < numofAsteroids; i++){
     asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY));
   }
@@ -119,6 +119,7 @@ public void draw() {
       lazer.show();
     }
   }
+  
   if (lazerList.size() >= 5) {
         lazerList.remove(0);
     }
