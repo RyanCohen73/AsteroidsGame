@@ -47,7 +47,7 @@ public void displayStars() {
 public void createAsteroids(int input) {
   int numofAsteroid = this.numofAsteroids + input;
   for(int i = 0; i < numofAsteroids; i++){
-    asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY));
+    asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, "asteroid"));
   }
 }
 
@@ -62,9 +62,15 @@ public void displayAsteroids(){
   for (int j = this.asteroidList.size(); j > 0; j--) {
     Asteroid asteroid = this.asteroidList.get(j-1);
     if (detectCollision(this.spaceship, asteroid, 25)){
-      this.asteroidList.remove(j-1);
-      this.score = 0;
-      this.lives -= 1;
+      if (asteroid.getType() == "asteroid") {
+        this.asteroidList.remove(j-1);
+        this.score = 0;
+        this.lives -= 1;
+      } 
+      else {
+        this.asteroidList.remove(j-1);
+        this.lives += 1;
+      }
     }
     else {
       asteroid.move();

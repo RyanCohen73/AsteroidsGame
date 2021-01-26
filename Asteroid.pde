@@ -2,12 +2,13 @@ class Asteroid extends Floater {
   
   protected double rotationSpeed;
   protected int screenSizeX, screenSizeY;
+  protected String type;
   //private int 
 
-  Asteroid(int screenSizeX, int screenSizeY) {
+  Asteroid(int screenSizeX, int screenSizeY, String type) {
     this.screenSizeX = screenSizeX;
     this.screenSizeY = screenSizeY;
-    
+    this.type = type;
     //initAsteroidVariant(1);
     initAsteroidVariant(round((float)(Math.random())));
     
@@ -24,6 +25,11 @@ class Asteroid extends Floater {
     this.myPointDirection = 0.0;
     this.rotationSpeed = (double) (Math.random()*4);
   }
+  
+  public String getType() {
+    return this.type;
+  }
+  
   
   public void move() {
     this.turn(this.rotationSpeed);
