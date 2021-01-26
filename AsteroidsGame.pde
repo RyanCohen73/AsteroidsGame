@@ -45,7 +45,7 @@ public void displayStars() {
 
 //ASTEROID METHODS
 public void createAsteroids(int input) {
-  int numofAsteroid = this.numofAsteroids + input;
+  int numofAsteroids = this.numofAsteroids + input;
   for(int i = 0; i < numofAsteroids; i++){
     asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, "asteroid"));
   }
@@ -205,16 +205,16 @@ public void keyPressed() {
     this.spaceship.hyperspace();
     destroyLazers();
   } 
-  if (key == 'd') {
+  if (key == 'd' || keyCode == RIGHT) {
     this.spaceship.rotateClockwise();
   }
-  if (key == 'a') {
+  if (key == 'a' || keyCode == LEFT) {
     this.spaceship.rotateCounterClockwise();
   }
-  if (key == 'w') {
+  if (key == 'w' || keyCode == UP) {
     this.spaceship.accelerate(2.0);
   }
-  if (key == 's') {
+  if (key == 's' || keyCode == DOWN) {
     this.spaceship.accelerate(-2.0);
   }
   if (key == ' ') {
