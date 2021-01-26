@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 	<head>
 		<meta charset="utf-8">
-		<title>Title</title>
+		<title>Ryan's Asteroid Game</title>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="styles.css">
 		<script src="processing.js"></script>
 	</head>
 	<body>
 		<header>
-			<h1>Header</h1>
+			<h1>Ryan's Astroids Game</h1>
 		</header>
 			<section id="content">
-				<canvas id="AsteroidsGame" data-processing-sources="AsteroidsGame.pde Floater.pde Spaceship.pde Star.pde">
+				<canvas 
+					id="AsteroidsGame" 
+					data-processing-sources="AsteroidsGame.pde Floater.pde Spaceship.pde Star.pde Asteroid.pde Lazer.pde"
+				> 
 				</canvas>
-		    </section>
+		  </section>
 	    <footer>
-        	Press W to accelerate <br>
-        	Press S to deaccelerate <br>
-        	Press D or A to turn rotate <br>
-        	Press H for hyperspace <br>
+        Press W to accelerate <br>
+				Press S to deaccelerate <br>
+				Press X to Stop <br>
+        Press D or A to turn rotate <br>
+				Press H for hyperspace <br>
+				Press SPACE to shoot <br>
+				Press 1 to Start Game <br>
+				Press 2 to Clear Asteroids <br>
+				Press 3 to Clear Shots <br>
 	    </footer>
 	</body>
 </html>

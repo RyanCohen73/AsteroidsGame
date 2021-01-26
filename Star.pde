@@ -1,13 +1,15 @@
 class Star {
   private int xCoord, yCoord;
-  private int rColor;
-  private int gColor;
-  private int bColor;
+  private int rColor, gColor, bColor;
   private int starSize;
+  protected int screenSizeX, screenSizeY;
 
-  public Star() {
-    this.xCoord = (int)(Math.random()*500);
-    this.yCoord = (int)(Math.random()*500);
+  public Star(int screenSizeX, int screenSizeY) {
+    this.screenSizeX = screenSizeX;
+    this.screenSizeY = screenSizeY;
+
+    this.xCoord = (int)(Math.random()*this.screenSizeX);
+    this.yCoord = (int)(Math.random()*this.screenSizeY);
     
     this.rColor = (int)(Math.random()*255);
     this.gColor = (int)(Math.random()*255);
@@ -17,7 +19,8 @@ class Star {
   }
   
   public void show() {
-    fill(rColor, gColor, bColor); 
+    fill(rColor, gColor, bColor);
+    stroke(rColor, gColor, bColor); 
     ellipse(xCoord, yCoord, starSize + (int)(Math.random()*2), starSize + (int)(Math.random()*2));
   }
 }
