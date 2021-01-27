@@ -14,7 +14,7 @@ Star[] stars;
 ArrayList<Asteroid> asteroidList = new ArrayList<Asteroid>();
 ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
- 
+//GAME METHODS 
 public void startGame() {
   destroyLazers();
   destroyAsteroids();
@@ -22,6 +22,7 @@ public void startGame() {
   this.spaceship.startingPos();
   this.lives = 5;
   this.score = 0;
+  this.level = 0;
 }
 
 public void loseGame() {
@@ -29,6 +30,17 @@ public void loseGame() {
     startGame();
   }
 }
+
+public void levelUp() {
+  if (this.asteroidList.size() == 0) {
+    this.level ++;
+    destroyLazers();
+    createAsteroids(this.level);
+    //this.spaceship.startingPos();
+    this.spaceship.stopMove();
+  }
+}
+
 //STAR METHODS
 public void createStars() {
   for (int i = 0; i < this.stars.length; i++){
@@ -130,6 +142,7 @@ public boolean detectCollision(Floater floaterA, Floater floaterB, int distance)
 
 public void createText(String label, double value, int rowPos, int sizeAfter) {
   fill(255, 255, 255);
+  textSize(15);
   text(label + ": " + nf((float)value, 0, sizeAfter), 20, 20 + rowPos*15);
 }
 
@@ -141,7 +154,8 @@ public void displayText() {
   createText("Y Speed", this.spaceship.getYspeed(), 4, 2);
   createText("High Score", (double) this.highScore, 6, 0);
   createText("Score", (double) this.score, 7, 0);
-  createText("Lives Remaining", (double) this.lives, 8, 0);
+  createText("Lives Remaining", (double) this.lives, 9, 0);
+  createText("Level", (double) this.level+1, 10, 0);
 }
 
 
@@ -153,13 +167,6 @@ public void destroyFloater(ArrayList<Floater> floaterList) {
   }
 }
 //*/
-
-public void levelUp() {
-  destroyLazers();
-  createAsteroids(this.level);
-  //this.spaceship.startingPos();
-  this.spaceship.stopMove();
-}
 
 
 
@@ -192,6 +199,7 @@ public void draw() {
   this.spaceship.move();
   this.spaceship.show();
   
+  levelUp();
   loseGame();
   
   
@@ -219,9 +227,6 @@ public void keyPressed() {
   }
   if (key == ' ') {
     this.lazerList.add(new Lazer(this.spaceship));
-  }
-  if (key == 'x') {
-    this.spaceship.stopMove();
   }
   if (key == '3') {
     destroyLazers();
