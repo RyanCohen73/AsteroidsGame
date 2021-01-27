@@ -16,8 +16,7 @@ class Asteroid extends Floater {
     this.gColor = (int)(Math.random()*255);
     this.bColor = (int)(Math.random()*255);
 
-    this.myCenterX = (double) Math.random()*this.screenSizeX;
-    this.myCenterY = (double) Math.random()*this.screenSizeY;
+    genStartPoint();
     
     this.myXspeed = genNegValue()*((double) 1 + Math.random()*1.5);
     this.myYspeed = genNegValue()*((double) 1 + Math.random()*1.5);
@@ -30,7 +29,22 @@ class Asteroid extends Floater {
     return this.type;
   }
   
-  
+  public void genStartPoint() {
+    this.myCenterX = (double) Math.random()*this.screenSizeX;
+
+    if ((this.screenSizeX-30) < this.myCenterX 
+    && this.myCenterX < (this.screenSizeX+30)) {
+      this.myCenterX = this.screenSizeX+genNegValue()*(this.screenSizeX/3);
+    }
+    
+    this.myCenterY = (double) Math.random()*this.screenSizeY;
+
+    if ((this.screenSizeY-30) < this.myCenterY 
+    && this.myCenterY < (this.screenSizeY+30)) {
+      this.myCenterY = this.screenSizeY+genNegValue()*(this.screenSizeY/3);
+    }
+  }
+
   public void move() {
     this.turn(this.rotationSpeed);
     super.move();
