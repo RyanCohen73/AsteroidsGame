@@ -234,6 +234,9 @@ public void keyPressed() {
   if (key == 's' || keyCode == DOWN) {
     this.spaceship.accelerate(-2.0);
   }
+  if (key == 'x' ) {
+    this.spaceship.stopMove();
+  }
   if (key == ' ') {
     this.lazerList.add(new Lazer(this.spaceship));
   }
