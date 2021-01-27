@@ -12,6 +12,8 @@ Spaceship spaceship;
 Star[] stars;
 
 ArrayList<Asteroid> asteroidList = new ArrayList<Asteroid>();
+ArrayList<Asteroid> extraLifeList = new ArrayList<Asteroid>();
+
 ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
 //GAME METHODS 
@@ -31,11 +33,21 @@ public void loseGame() {
   }
 }
 
+public void increaseScore(int input){
+  if (score == highScore){
+    this.highScore += input;
+  }
+  this.score += input;
+}
+
 public void levelUp() {
   if (this.asteroidList.size() == 0) {
     this.level ++;
+    increaseScore(200);
+
     destroyLazers();
     createAsteroids(this.level);
+    
     //this.spaceship.startingPos();
     this.spaceship.stopMove();
   }
@@ -110,10 +122,7 @@ public void displayLazers() {
       if (detectCollision(lazer, asteroid, 15)){
         this.asteroidList.remove(j-1);
         this.lazerList.remove(i-1);
-        if (score == highScore){
-          this.highScore += 100;
-        }
-        this.score += 100;
+        increaseScore(100);
       }
     }
     
