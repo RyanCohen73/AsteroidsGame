@@ -4,7 +4,7 @@ class Asteroid extends Floater {
   protected int screenSizeX, screenSizeY;
   protected String type;
   protected String sizeVariantType;
-  //private int 
+  protected int avgDistance;
 
   Asteroid(int screenSizeX, int screenSizeY, String type) {
     this.screenSizeX = screenSizeX;
@@ -95,49 +95,5 @@ class Asteroid extends Floater {
       this.xCorners = new int[]{genRandomValue(value), genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value)};
       this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
     }
-    
-    /*
-    if (selector == 0) {
-      //triangles
-      this.corners = 3;
-      int value = 10;
-      this.xCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), genNegValue()*genRandomValue(value)};
-      this.yCorners = new int[]{-1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
-    }  else if (selector == 1) {
-      //polygons
-      this.corners = 4;
-      int value = 5;
-      this.xCorners = new int[]{genRandomValue(value), genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value)};
-      this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
-    }
-    //*/
   }
-  
-  /*
-  private void initAsteroidVariant() {
-    this.corners = 4;
-    int value = 5;
-    this.xCorners = new int[]{genRandomValue(value), genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value)};
-    this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
-  }
-  //*/
-  /*
-  private void initAsteroidVariant(int selector) {
-    if (selector == 0) {
-      this.corners = 6;
-      this.xCorners = new int[]{13, 6, -11, -5, -11, 7};
-      this.yCorners = new int[]{0, 10, 8, 0, -8, -8};
-    } else if (selector == 1) {
-      this.corners = 10;
-      this.xCorners = new int[]{10, 11, 5, -7, -10, 0, 1, -12, -3, 2};
-      this.yCorners = new int[]{5, 0, -3, -2, -1, 2, 4, 5, 11, 10};
-    } else if (selector == 2) {
-      this.corners = 4;
-      int value = 5;
-      this.xCorners = new int[]{genRandomValue(value), genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value)};
-      this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
-    }
-  }
-  //*/
-
 }
