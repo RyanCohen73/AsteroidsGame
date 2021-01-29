@@ -202,16 +202,6 @@ public void displayText() {
 }
 
 
-/*
-public void destroyFloater(ArrayList<Floater> floaterList) {
-  for (int i = floaterList.size(); i > 0; i--){
-    //Floater floater = floaterList.get(i-1);
-    floaterList.remove(i-1);
-  }
-}
-//*/
-
-
 
 public void setup() {
   //size(500, 500);
@@ -244,16 +234,8 @@ public void draw() {
   
   loseGame();
   levelCleared();
-  
-  /*/
-  if (this.canLevelUp == true) {
-    displayGameMessage("You Beat the Level! Press SPACE to Continue");
-    System.out.println("Turkey Man Has Returned");
-  }
-  //*/
-  
-
 }
+
 
 public void keyPressed() {
   if (key == 'h') {
@@ -276,8 +258,7 @@ public void keyPressed() {
     this.spaceship.stopMove();
   }
   
-  if (key == ENTER) {
-  //if (keyPressed == true) {
+  if (key == RETURN || key == ENTER) {
     if (this.isDead) {
       startGame();
     }
@@ -296,13 +277,11 @@ public void keyPressed() {
   }
   if (key == '2') {
     destroyAsteroids();
-   //destroyFloater(this.asteroidList);
   }
   if (key == '3') {
     instantKill();
   }
   if (key == '0') {
     destroyLazers();
-   //destroyFloater(this.lazerList);
   }
 }
