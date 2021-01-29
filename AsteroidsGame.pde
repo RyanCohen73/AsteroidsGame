@@ -6,6 +6,9 @@ public boolean canLevelUp = false;
 public boolean isDead = false;
 public int screenSizeX, screenSizeY;
 
+public int bouldersDestroyed = 0;
+public int bouldersDestroyedCheck = 0;
+
 public int asteroidsDestroyedCounter = 0;
 public int shotsFiredCounter = 0;
 
@@ -118,10 +121,13 @@ public void displayAsteroids(){
     if (detectCollision(this.spaceship, asteroid, 25)){
     //if (detectCollision(this.spaceship, asteroid, asteroid.getAvgDist())){
 
-      if (asteroid.getType() == "asteroid") {
-        this.asteroidList.remove(j-1);
-        this.score = 0;
-        this.lives --;
+      if (asteroid.getFunctionType() == "asteroid") {
+        if (asteroid.getSizeType() == "boulder") {
+          this.asteroidList.remove(j-1);
+          this.score = 0;
+          this.lives --;
+          this.bouldersDestroyed++;
+        }
       } 
       else {
         this.asteroidList.remove(j-1);
@@ -129,6 +135,7 @@ public void displayAsteroids(){
       }
     }
     else {
+      //displayLazers(asteroid, j);
       asteroid.move();
       asteroid.show();
     }
@@ -144,7 +151,6 @@ public void destroyLazers() {
   }
 }
 
-
 public void displayLazers() {
   for (int i = this.lazerList.size(); i > 0; i--){
     Lazer lazer = this.lazerList.get(i-1);
@@ -157,7 +163,7 @@ public void displayLazers() {
         this.lazerList.remove(i-1);
         increaseScore(100);
         this.asteroidsDestroyedCounter ++;
-        System.out.println(asteroid.getAvgDist());
+        System.out.println(asteroid.getAvgRadius());
 
       }
     }
@@ -174,6 +180,32 @@ public void displayLazers() {
         lazerList.remove(0);
   }
 }
+/*/
+public void displayLazers(Asteroid asteroid, int j) {
+  for (int i = this.lazerList.size(); i > 0; i--){
+    Lazer lazer = this.lazerList.get(i-1);
+    if (detectCollision(lazer, asteroid, 25)){
+    //if (detectCollision(lazer, asteroid, asteroid.getAvgDist())){
+      this.asteroidList.remove(j-1);
+      this.lazerList.remove(i-1);
+      increaseScore(100);
+      this.asteroidsDestroyedCounter ++;
+      System.out.println(asteroid.getAvgDist());
+
+    }
+    lazer.move();
+    lazer.show();
+    if (lazer.getCenterX() <= 0 || lazer.getCenterX() >= this.screenSizeX ||
+      lazer.getCenterY() <= 0 || lazer.getCenterY() >= this.screenSizeY) {
+      this.lazerList.remove(i-1);
+    }
+  }
+  
+  if (lazerList.size() >= 5) {
+        lazerList.remove(0);
+  }
+}
+//*/
 
 public boolean detectCollision(Floater floaterA, Floater floaterB, int distance) {
   return dist( (float)floaterA.getCenterX(),

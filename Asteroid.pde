@@ -2,14 +2,14 @@ class Asteroid extends Floater {
   
   protected double rotationSpeed;
   protected int screenSizeX, screenSizeY;
-  protected String type;
+  protected String functionType;
   protected String sizeVariantType;
-  protected int avgDistance;
+  protected int avgRadius;
 
-  Asteroid(int screenSizeX, int screenSizeY, String type) {
+  Asteroid(int screenSizeX, int screenSizeY, String functionType) {
     this.screenSizeX = screenSizeX;
     this.screenSizeY = screenSizeY;
-    this.type = type;
+    this.functionType = functionType;
     //initAsteroidVariant(1);
     initAsteroidVariant(round((float)(Math.random())), round((float)(Math.random())));
     
@@ -26,15 +26,16 @@ class Asteroid extends Floater {
     this.rotationSpeed = (double) (Math.random()*4);
   }
   
-  public String getType() {
-    return this.type;
+  public String getFunctionType() {
+    return this.functionType;
   }
   public String getSizeType() {
     return this.sizeVariantType;
   }
 
-  public int getAvgDist() {
-    return this.avgDistance;
+  public int  getAvgRadius() {
+    return this.avgRadius
+;
   }
   
   public void genStartPoint() {
@@ -101,14 +102,15 @@ class Asteroid extends Floater {
     }
   }
 
-  private void calcAvgDist() {
+  private void calcAvgRadius() {
     int value = 0;
     for (int i = 0; i < this.corners; i++) {
-      value += Math.abs(this.xCorners[i]);
-      value += Math.abs(this.yCorners[i]);
+      int x = this.xCorners[i];
+      int y = this.yCorners[i];
+      value += Math.sqrt(x*x + y*y);
     }
-    value = value/(2*this.corners);
-    this.avgDistance = value;
+    value = value/(this.corners);
+    this.avgRadius = value;
     System.out.println(value);
   }
 }
