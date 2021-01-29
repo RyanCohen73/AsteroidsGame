@@ -5,7 +5,9 @@ public int lives = 5;
 public boolean canLevelUp = false;
 public boolean isDead = false;
 public int screenSizeX, screenSizeY;
+
 public int asteroidsDestroyedCounter = 0;
+public int shotsFiredCounter = 0;
 
 public double starDensity = 0.0005;
 public double asteroidDensity = 0.00002;
@@ -114,6 +116,8 @@ public void displayAsteroids(){
   for (int j = this.asteroidList.size(); j > 0; j--) {
     Asteroid asteroid = this.asteroidList.get(j-1);
     if (detectCollision(this.spaceship, asteroid, 25)){
+    //if (detectCollision(this.spaceship, asteroid, asteroid.getAvgDist())){
+
       if (asteroid.getType() == "asteroid") {
         this.asteroidList.remove(j-1);
         this.score = 0;
@@ -147,11 +151,13 @@ public void displayLazers() {
     
     for (int j = this.asteroidList.size(); j > 0; j--) {
       Asteroid asteroid = this.asteroidList.get(j-1);
-      if (detectCollision(lazer, asteroid, 15)){
+      if (detectCollision(lazer, asteroid, 25)){
+      //if (detectCollision(lazer, asteroid, asteroid.getAvgDist())){
         this.asteroidList.remove(j-1);
         this.lazerList.remove(i-1);
         increaseScore(100);
         this.asteroidsDestroyedCounter ++;
+        System.out.println(asteroid.getAvgDist());
 
       }
     }
@@ -201,6 +207,7 @@ public void createStat(String label, int input, int rowPos) {
 public void displayStats() {
   //text();
   createStat("asteroids destroyed", this.asteroidsDestroyedCounter, 0);
+  createStat("shots fired", this.shotsFiredCounter, 1);
 }
 
 public void createText(String label, double input, int rowPos, int sizeAfter) {
@@ -287,6 +294,7 @@ public void keyPressed() {
   }
   if (key == ' ') {
     this.lazerList.add(new Lazer(this.spaceship));
+    this.shotsFiredCounter++;
   }
 
   
