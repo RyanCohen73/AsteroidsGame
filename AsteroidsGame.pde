@@ -1,11 +1,11 @@
 public int score = 0;
 public int highScore = 0;
 public int level = 0;
-public boolean canLevelUp = false;
 public int lives = 5;
+public boolean canLevelUp = false;
 public boolean isDead = false;
 public int screenSizeX, screenSizeY;
-
+public int asteroidsDestroyedCounter = 0;
 
 public double starDensity = 0.0005;
 public double asteroidDensity = 0.00002;
@@ -27,11 +27,12 @@ public void startGame() {
   destroyAsteroids();
   createAsteroids(0);
   this.spaceship.startingPos();
-  this.lives = 5;
   this.score = 0;
   this.level = 0;
+  this.lives = 5;
   this.canLevelUp = false;
   this.isDead = false;
+  this.asteroidsDestroyedCounter = 0;
 }
 
 public void loseGame() {
@@ -39,7 +40,8 @@ public void loseGame() {
     this.isDead = true;
     
     displayGameMessage("You Died. Press ENTER to Play Again");
-    
+    displayStats();
+
     destroyAsteroids();
     destroyLazers();
     this.spaceship.startingPos();
@@ -104,6 +106,7 @@ public void destroyAsteroids() {
   for (int i = this.asteroidList.size(); i > 0; i--){
     Asteroid asteroid = this.asteroidList.get(i-1);
     this.asteroidList.remove(i-1);
+
   }
 }
 
@@ -114,7 +117,7 @@ public void displayAsteroids(){
       if (asteroid.getType() == "asteroid") {
         this.asteroidList.remove(j-1);
         this.score = 0;
-        this.lives -= 1;
+        this.lives --;
       } 
       else {
         this.asteroidList.remove(j-1);
@@ -148,6 +151,8 @@ public void displayLazers() {
         this.asteroidList.remove(j-1);
         this.lazerList.remove(i-1);
         increaseScore(100);
+        this.asteroidsDestroyedCounter ++;
+
       }
     }
     
@@ -173,20 +178,35 @@ public boolean detectCollision(Floater floaterA, Floater floaterB, int distance)
 }
 
 //TEXT METHODS
-public void displayGameMessage(String input) {
+public void displayGameMessage(String label) {
   //fill(255, 255, 255);
   textSize(30); 
-  float textPosX = (this.screenSizeX - textWidth(input))/2;
-  int textPosY = 250;
-  text(input, textPosX, textPosY); 
+  float textPosX = (this.screenSizeX - textWidth(label))/2;
+  int textPosY = this.screenSizeY/3;
+  text(label, textPosX, textPosY); 
   //text(input, 250, 250); 
 }
 
 
-public void createText(String label, double value, int rowPos, int sizeAfter) {
+public void createStat(String label, int input, int rowPos) {
+  fill(255, 255, 255);
+  textSize(20);
+  String string = input + " " + label;
+  float textPosX = (this.screenSizeX - textWidth(string))/2;
+  float textPosY = (3*this.screenSizeY)/5;
+
+  text(string, textPosX, textPosY + rowPos*25);
+}
+
+public void displayStats() {
+  //text();
+  createStat("asteroids destroyed", this.asteroidsDestroyedCounter, 0);
+}
+
+public void createText(String label, double input, int rowPos, int sizeAfter) {
   fill(255, 255, 255);
   textSize(15);
-  text(label + ": " + nf((float)value, 0, sizeAfter), 20, 20 + rowPos*15);
+  text(label + ": " + nf((float)input, 0, sizeAfter), 20, 20 + rowPos*15);
 }
 
 public void displayText() {
@@ -200,8 +220,6 @@ public void displayText() {
   createText("Lives Remaining", (double) this.lives, 9, 0);
   createText("Level", (double) this.level+1, 10, 0);
 }
-
-
 
 public void setup() {
   //size(500, 500);
