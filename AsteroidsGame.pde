@@ -1,8 +1,11 @@
 public int score = 0;
 public int highScore = 0;
 public int level = 0;
+public boolean canLevelUp = false;
 public int lives = 5;
+public boolean isDead = false;
 public int screenSizeX, screenSizeY;
+
 
 public double starDensity = 0.0005;
 public double asteroidDensity = 0.00002;
@@ -17,6 +20,8 @@ ArrayList<Asteroid> extraLifeList = new ArrayList<Asteroid>();
 ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
 //GAME METHODS 
+
+
 public void startGame() {
   destroyLazers();
   destroyAsteroids();
@@ -25,12 +30,25 @@ public void startGame() {
   this.lives = 5;
   this.score = 0;
   this.level = 0;
+  this.canLevelUp = false;
+  this.isDead = false;
 }
 
 public void loseGame() {
   if (this.lives == 0) {
-    startGame();
+    this.isDead = true;
+    
+    displayGameMessage("You Died. Press ENTER to Play Again");
+    
+    destroyAsteroids();
+    destroyLazers();
+    this.spaceship.startingPos();
+    
   }
+}
+
+public void instantKill() {
+  this.lives = 0;
 }
 
 public void increaseScore(int input){
@@ -40,17 +58,24 @@ public void increaseScore(int input){
   this.score += input;
 }
 
-public void levelUp() {
-  if (this.asteroidList.size() == 0) {
-    this.level ++;
-    increaseScore(200);
-
+public void levelCleared() {
+  if (this.asteroidList.size() == 0 && this.lives != 0) {
+    this.canLevelUp = true;
+    displayGameMessage("Level Cleared! Press ENTER to Continue");
     destroyLazers();
-    createAsteroids(this.level);
-    
-    //this.spaceship.startingPos();
-    this.spaceship.stopMove();
+    this.spaceship.startingPos();
   }
+}
+
+public void levelUp() {
+  this.level ++;
+  increaseScore(200);
+
+  destroyLazers();
+  createAsteroids(this.level);
+  
+  //this.spaceship.startingPos();
+  this.spaceship.stopMove();
 }
 
 //STAR METHODS
@@ -148,6 +173,15 @@ public boolean detectCollision(Floater floaterA, Floater floaterB, int distance)
 }
 
 //TEXT METHODS
+public void displayGameMessage(String input) {
+  //fill(255, 255, 255);
+  textSize(30); 
+  float textPosX = (this.screenSizeX - textWidth(input))/2;
+  int textPosY = 250;
+  text(input, textPosX, textPosY); 
+  //text(input, 250, 250); 
+}
+
 
 public void createText(String label, double value, int rowPos, int sizeAfter) {
   fill(255, 255, 255);
@@ -208,11 +242,15 @@ public void draw() {
   this.spaceship.move();
   this.spaceship.show();
   
-  levelUp();
   loseGame();
+  levelCleared();
   
-  
-  //for (Asteroid asteroid : this.asteroidList) {
+  /*/
+  if (this.canLevelUp == true) {
+    displayGameMessage("You Beat the Level! Press SPACE to Continue");
+    System.out.println("Turkey Man Has Returned");
+  }
+  //*/
   
 
 }
@@ -237,18 +275,34 @@ public void keyPressed() {
   if (key == 'x' ) {
     this.spaceship.stopMove();
   }
+  
+  if (key == ENTER) {
+  //if (keyPressed == true) {
+    if (this.isDead) {
+      startGame();
+    }
+    else if(this.canLevelUp) {
+      levelUp();
+      this.canLevelUp = false;
+    }
+  }
   if (key == ' ') {
     this.lazerList.add(new Lazer(this.spaceship));
   }
-  if (key == '3') {
-    destroyLazers();
-   //destroyFloater(this.lazerList);
+
+  
+  if (key == '1') {
+    startGame();
   }
   if (key == '2') {
     destroyAsteroids();
    //destroyFloater(this.asteroidList);
   }
-  if (key == '1') {
-    startGame();
+  if (key == '3') {
+    instantKill();
+  }
+  if (key == '0') {
+    destroyLazers();
+   //destroyFloater(this.lazerList);
   }
 }
