@@ -32,6 +32,10 @@ class Asteroid extends Floater {
   public String getSizeType() {
     return this.sizeVariantType;
   }
+
+  public int getAvgDist() {
+    return this.avgDistance;
+  }
   
   public void genStartPoint() {
     this.myCenterX = (double) Math.random()*this.screenSizeX;
@@ -95,5 +99,16 @@ class Asteroid extends Floater {
       this.xCorners = new int[]{genRandomValue(value), genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value)};
       this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
     }
+  }
+
+  private void calcAvgDist() {
+    int value = 0;
+    for (int i = 0; i < this.corners; i++) {
+      value += Math.abs(this.xCorners[i]);
+      value += Math.abs(this.yCorners[i]);
+    }
+    value = value/(2*this.corners);
+    this.avgDistance = value;
+    System.out.println(value);
   }
 }
