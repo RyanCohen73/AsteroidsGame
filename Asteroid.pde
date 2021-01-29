@@ -3,6 +3,7 @@ class Asteroid extends Floater {
   protected double rotationSpeed;
   protected int screenSizeX, screenSizeY;
   protected String type;
+  protected String sizeVariantType;
   //private int 
 
   Asteroid(int screenSizeX, int screenSizeY, String type) {
@@ -10,7 +11,7 @@ class Asteroid extends Floater {
     this.screenSizeY = screenSizeY;
     this.type = type;
     //initAsteroidVariant(1);
-    initAsteroidVariant(round((float)(Math.random())));
+    initAsteroidVariant(round((float)(Math.random())), round((float)(Math.random())));
     
     this.rColor = (int)(Math.random()*255);
     this.gColor = (int)(Math.random()*255);
@@ -27,6 +28,9 @@ class Asteroid extends Floater {
   
   public String getType() {
     return this.type;
+  }
+  public String getSizeType() {
+    return this.sizeVariantType;
   }
   
   public void genStartPoint() {
@@ -59,8 +63,40 @@ class Asteroid extends Floater {
     return value;
   }
 
-  private void initAsteroidVariant(int selector) {
+  private String genShapeValue(int selector) {
+    return selector == 0 ? "rock" : "boulder";
+  }
+
+  private int sizeForSizeVariant(String sizeVariantType) {
+    switch (sizeVariantType) {
+      case "boulder":
+        return 30;
+      case "rock":
+      default:
+        return 10;
+    }
+  }
+
+  private void initAsteroidVariant(int selectorA, int selectorB) {
+    this.sizeVariantType = genShapeValue(selectorB);
+    int value = sizeForSizeVariant(this.sizeVariantType);
+    if (selectorA == 0) {
+      //triangles
+      this.corners = 3;
+      
+      
+      this.xCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), genNegValue()*genRandomValue(value)};
+      this.yCorners = new int[]{-1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
+    }  
+    else if (selectorA == 1) {
+      //polygons
+      this.corners = 4;
     
+      this.xCorners = new int[]{genRandomValue(value), genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value)};
+      this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
+    }
+    
+    /*
     if (selector == 0) {
       //triangles
       this.corners = 3;
@@ -74,6 +110,7 @@ class Asteroid extends Floater {
       this.xCorners = new int[]{genRandomValue(value), genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value)};
       this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
     }
+    //*/
   }
   
   /*
