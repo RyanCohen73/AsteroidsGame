@@ -19,8 +19,8 @@ class Star {
   }
   
   public void show() {
-    fill(rColor, gColor, bColor);
-    stroke(rColor, gColor, bColor); 
-    ellipse(xCoord, yCoord, starSize + (int)(Math.random()*2), starSize + (int)(Math.random()*2));
+    fill(this.rColor, this.gColor, this.bColor);
+    stroke(this.rColor, this.gColor, this.bColor); 
+    ellipse(this.xCoord, this.yCoord, this.starSize + (int)(Math.random()*2), this.starSize + (int)(Math.random()*2));
   }
 }
