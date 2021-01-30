@@ -5,6 +5,7 @@ public int lives = 5;
 public boolean canLevelUp = false;
 public boolean isDead = false;
 public int screenSizeX, screenSizeY;
+public int screenArea;
 
 public int bouldersDestroyed = 0;
 public int bouldersDestroyedCheck = 0;
@@ -14,6 +15,7 @@ public int shotsFiredCounter = 0;
 
 public double starDensity = 0.0005;
 public double asteroidDensity = 0.00002;
+public double textDensity = 0.00002;
 public int numofStars, numofAsteroids;
 
 Spaceship spaceship;
@@ -218,6 +220,8 @@ public boolean detectCollision(Floater floaterA, Floater floaterB, int distance)
 //TEXT METHODS
 public void displayGameMessage(String label) {
   //fill(255, 255, 255);
+  //int size = (int)this.textDensity*this.screenArea;
+  //textSize(size*2);
   textSize(30); 
   float textPosX = (this.screenSizeX - textWidth(label))/2;
   int textPosY = this.screenSizeY/3;
@@ -263,13 +267,13 @@ public void displayText() {
 public void setup() {
   //size(500, 500);
   size(1024, 768);
-  int screenArea = width*height;
   
   this.screenSizeX = width;
   this.screenSizeY = height;
+  this.screenArea = this.screenSizeX*this.screenSizeY;
 
-  this.numofStars = (int)(screenArea*this.starDensity);
-  this.numofAsteroids = (int)(screenArea*this.asteroidDensity);
+  this.numofStars = (int)(this.screenArea*this.starDensity);
+  this.numofAsteroids = (int)(this.screenArea*this.asteroidDensity);
 
   this.spaceship = new Spaceship(width, height);
   this.stars = new Star[(this.numofStars)];
