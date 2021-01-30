@@ -39,18 +39,18 @@ class Asteroid extends Floater {
   }
   
   public void genStartPoint() {
-    this.myCenterX = (double) Math.random()*this.screenSizeX;
+    this.xCoord = (double) Math.random()*this.screenSizeX;
 
-    if ((this.screenSizeX-30) < this.myCenterX 
-    && this.myCenterX < (this.screenSizeX+30)) {
-      this.myCenterX = this.screenSizeX+genNegValue()*(this.screenSizeX/3);
+    if ((this.screenSizeX-30) < this.xCoord 
+    && this.xCoord < (this.screenSizeX+30)) {
+      this.xCoord = this.screenSizeX+genNegValue()*(this.screenSizeX/3);
     }
     
-    this.myCenterY = (double) Math.random()*this.screenSizeY;
+    this.yCoord = (double) Math.random()*this.screenSizeY;
 
-    if ((this.screenSizeY-30) < this.myCenterY 
-    && this.myCenterY < (this.screenSizeY+30)) {
-      this.myCenterY = this.screenSizeY+genNegValue()*(this.screenSizeY/3);
+    if ((this.screenSizeY-30) < this.yCoord 
+    && this.yCoord < (this.screenSizeY+30)) {
+      this.yCoord = this.screenSizeY+genNegValue()*(this.screenSizeY/3);
     }
   }
 

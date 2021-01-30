@@ -1,8 +1,8 @@
 class Lazer extends Floater {
   
   public Lazer(Spaceship spaceship) {
-    this.myCenterX = spaceship.getCenterX();
-    this.myCenterY = spaceship.getCenterY();
+    this.xCoord = spaceship.getCenterX();
+    this.yCoord = spaceship.getCenterY();
     
     this.myXspeed = spaceship.getXspeed();
     this.myYspeed = spaceship.getYspeed();
@@ -21,11 +21,11 @@ class Lazer extends Floater {
   public void show() {
     fill(this.rColor, this.gColor, this.bColor);
     stroke(255, 255, 255);
-    ellipse((float)this.myCenterX, (float)this.myCenterY, 5, 5);
+    ellipse((float)this.xCoord, (float)this.yCoord, 5, 5);
   }
   public void move() { 
-    this.myCenterX += this.myXspeed;    
-    this.myCenterY += this.myYspeed; 
+    this.xCoord += this.myXspeed;    
+    this.yCoord += this.myYspeed; 
   } 
 
 }

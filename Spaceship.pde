@@ -40,8 +40,8 @@ class Spaceship extends Floater {
     this.gColor = 255;
     this.bColor = 255;
     
-    this.myCenterX = this.screenSizeX/2;
-    this.myCenterY = this.screenSizeY/2;
+    this.xCoord = this.screenSizeX/2;
+    this.yCoord = this.screenSizeY/2;
     this.myXspeed = 0.0;
     this.myYspeed = 0.0;
     //this.mySpeedMag = Math.sqrt(this.myXspeed^2 + this.myYspeed^2);
@@ -56,15 +56,15 @@ class Spaceship extends Floater {
 
   public void startingPos() {
     stopMove();
-    this.myCenterX = this.screenSizeX/2;
-    this.myCenterY = this.screenSizeY/2;
+    this.xCoord = this.screenSizeX/2;
+    this.yCoord = this.screenSizeY/2;
     this.myPointDirection = 0.0;
   }
   
   public void hyperspace() {
     stopMove();
-    this.myCenterX = Math.random()*this.screenSizeX;
-    this.myCenterY = Math.random()*this.screenSizeY;
+    this.xCoord = Math.random()*this.screenSizeX;
+    this.yCoord = Math.random()*this.screenSizeY;
     this.myPointDirection = Math.random()*360;
   }
  
@@ -99,8 +99,8 @@ class Spaceship extends Floater {
   /*
   public void move() {
     super.move();
-    //this.myCenterX = (this.myCenterX + this.myXspeed + this.screenSizeX)%this.screenSizeX;
-    //this.myCenterY = (this.myCenterY + this.myYspeed + this.screenSizeY)%this.screenSizeY ;
+    //this.xCoord = (this.xCoord + this.myXspeed + this.screenSizeX)%this.screenSizeX;
+    //this.yCoord = (this.yCoord + this.myYspeed + this.screenSizeY)%this.screenSizeY ;
     //this.accelerate(-0.5);
   }
   //*/

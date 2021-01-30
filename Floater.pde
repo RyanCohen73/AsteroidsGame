@@ -6,15 +6,15 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
   //protected int myColor;   
   protected int rColor, gColor, bColor;
   
-  protected double myCenterX, myCenterY; //holds center coordinates   
+  protected double xCoord, yCoord; //holds center coordinates   
   protected double myXspeed, myYspeed; //holds the speed of travel in the x and y directions   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
 
   public double getCenterX() {
-    return this.myCenterX;
+    return this.xCoord;
   }
   public double getCenterY() {
-    return this.myCenterY;
+    return this.yCoord;
   }
   public double getXspeed() {
     return this.myXspeed;
@@ -43,30 +43,30 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
   public void move() {
   //move the floater in the current direction of travel      
     //change the x and y coordinates by myXspeed and myYspeed       
-    this.myCenterX = (this.myCenterX + this.myXspeed + width)%width;
-    this.myCenterY = (this.myCenterY + this.myYspeed + height)%height;
+    this.xCoord = (this.xCoord + this.myXspeed + width)%width;
+    this.yCoord = (this.yCoord + this.myYspeed + height)%height;
     
     
     /*
-    myCenterX += myXspeed;    
-    myCenterY += myYspeed;     
+    xCoord += myXspeed;    
+    yCoord += myYspeed;     
 
     //wrap around screen    
-    if(myCenterX >width)
+    if(xCoord >width)
     {     
-      myCenterX = 0;    
+      xCoord = 0;    
     }    
-    else if (myCenterX<0)
+    else if (xCoord<0)
     {     
-      myCenterX = width;    
+      xCoord = width;    
     }    
-    if(myCenterY >height)
+    if(yCoord >height)
     {    
-      myCenterY = 0;    
+      yCoord = 0;    
     } 
     
-    else if (myCenterY < 0) {     
-      myCenterY = height;    
+    else if (yCoord < 0) {     
+      yCoord = height;    
     } 
     //*/  
   }   
@@ -82,7 +82,7 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     stroke(255, 255, 255);  
 
     //translate the (x,y) center of the ship to the correct position
-    translate((float)this.myCenterX, (float)this.myCenterY);
+    translate((float)this.xCoord, (float)this.yCoord);
 
     //convert degrees to radians for rotate()     
     float dRadians = (float)(this.myPointDirection*(Math.PI/180));
@@ -99,6 +99,6 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
 
     //"unrotate" and "untranslate" in reverse order
     rotate(-1*dRadians);
-    translate(-1*(float)this.myCenterX, -1*(float)this.myCenterY);
+    translate(-1*(float)this.xCoord, -1*(float)this.yCoord);
   }   
 } 
