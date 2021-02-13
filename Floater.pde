@@ -25,6 +25,15 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
   public double getPointDirection() {
     return this.myPointDirection;
   }
+  public int getRColor(){
+    return this.rColor;
+  }
+  public int getGColor(){
+    return this.gColor;
+  }
+  public int getBColor(){
+    return this.bColor;
+  }
 
   //Accelerates the floater in the direction it is pointing (myPointDirection)   
   public void accelerate(double dAmount) {          
