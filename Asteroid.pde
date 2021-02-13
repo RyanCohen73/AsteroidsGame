@@ -90,7 +90,7 @@ class Asteroid extends Floater {
     return value;
   }
 
-  private String genShapeValue(int selector) {
+  private String genShapeVariant(int selector) {
     return selector == 0 ? "rock" : "boulder";
   }
 
@@ -106,7 +106,7 @@ class Asteroid extends Floater {
 
   private void initAsteroidVariant(int selectorA, int selectorB) {
     if (this.sizeVariantType == null) {
-      this.sizeVariantType = genShapeValue(selectorB);
+      this.sizeVariantType = genShapeVariant(selectorB);
     }
     int value = sizeForSizeVariant(this.sizeVariantType);
     
@@ -139,4 +139,16 @@ class Asteroid extends Floater {
     this.avgRadius = value;
     System.out.println(value);
   }
-}
+
+  public void show() {
+    if (this.functionType == "1UP") {
+      fill(this.rColor, this.gColor, this.bColor);    
+      stroke(this.rColor, this.gColor, this.bColor); 
+      int size = 50  + (int)(Math.random()*10);
+      ellipse((float)xCoord, (float)yCoord, size, size);
+    }
+    else {
+      super.show();
+    }
+  }
+} 

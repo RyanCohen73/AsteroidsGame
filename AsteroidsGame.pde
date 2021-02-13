@@ -100,6 +100,7 @@ public void levelUp() {
   destroyLazers();
   destroyShields();
   createAsteroids(this.level);
+  create1UP();
   
   //this.spaceship.startingPos();
   this.spaceship.stopMove();
@@ -125,6 +126,10 @@ public void createAsteroids(int input) {
   for(int i = 0; i < numofAsteroids; i++){
     asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, "asteroid"));
   }
+}
+
+public void create1UP() {
+  asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, "1UP"));
 }
 
 public void destroyAsteroids() {
@@ -196,8 +201,13 @@ public void displayLazers() {
       Asteroid asteroid = this.asteroidList.get(j-1);
       if (detectCollision(lazer, asteroid, 25)){
       //if (detectCollision(lazer, asteroid, asteroid.getAvgDist())){
-        if (asteroid.getSizeType() == "boulder") {
+        if (asteroid.getSizeType() == "boulder" && asteroid.getFunctionType() == "asteroid") {
           this.destroyedBouldersList.add(asteroid);
+        }
+        else if (asteroid.getFunctionType() == "1UP") {
+          this.lives ++;
+          this.asteroidsDestroyedCounter --;
+          increaseScore(-100);
         }
         this.asteroidList.remove(j-1);
         this.lazerList.remove(i-1);
