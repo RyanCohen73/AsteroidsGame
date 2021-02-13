@@ -26,6 +26,28 @@ class Asteroid extends Floater {
     this.rotationSpeed = (double) (Math.random()*4);
   }
   
+  Asteroid(int screenSizeX, int screenSizeY, double xCoord, double yCoord, String functionType, String sizeVariantType) {
+    this.screenSizeX = screenSizeX;
+    this.screenSizeY = screenSizeY;
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+    this.functionType = functionType;
+    this.sizeVariantType = sizeVariantType;
+    //initAsteroidVariant(1);
+    initAsteroidVariant(round((float)(Math.random())), round((float)(Math.random())));
+    
+    this.rColor = (int)(Math.random()*255);
+    this.gColor = (int)(Math.random()*255);
+    this.bColor = (int)(Math.random()*255);
+
+    
+    this.myXspeed = genNegValue()*((double) 1 + Math.random()*1.5);
+    this.myYspeed = genNegValue()*((double) 1 + Math.random()*1.5);
+    
+    this.myPointDirection = 0.0;
+    this.rotationSpeed = (double) (Math.random()*4);
+  }
+  
   public String getFunctionType() {
     return this.functionType;
   }
@@ -83,12 +105,14 @@ class Asteroid extends Floater {
   }
 
   private void initAsteroidVariant(int selectorA, int selectorB) {
-    this.sizeVariantType = genShapeValue(selectorB);
+    if (this.sizeVariantType == null) {
+      this.sizeVariantType = genShapeValue(selectorB);
+    }
     int value = sizeForSizeVariant(this.sizeVariantType);
+    
     if (selectorA == 0) {
       //triangles
       this.corners = 3;
-      
       
       this.xCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), genNegValue()*genRandomValue(value)};
       this.yCorners = new int[]{-1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
@@ -101,6 +125,8 @@ class Asteroid extends Floater {
       this.yCorners = new int[]{genRandomValue(value), -1*genRandomValue(value), -1*genRandomValue(value), genRandomValue(value)};
     }
   }
+
+  
 
   private void calcAvgRadius() {
     int value = 0;

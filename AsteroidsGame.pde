@@ -56,7 +56,7 @@ public void isGameOver() {
   if (this.lives == 0) {
     this.isDead = true;
     
-    displayGameMessage("GAME OVER\nPress ENTER to Play Again");
+    displayGameMessage("GAME OVER - Press ENTER to Play Again");
     displayStats();
 
     clearScreen();
@@ -128,10 +128,12 @@ public void destroyAsteroids() {
 }
 
 public void displayAsteroids(){
+  scatterBoulders();
+
   for (int j = this.asteroidList.size(); j > 0; j--) {
     Asteroid asteroid = this.asteroidList.get(j-1);
     if (this.shieldList.size() == 1) {
-      if (detectCollision(this.shieldList.get(0), asteroid, 150)){
+      if (detectCollision(this.shieldList.get(0), asteroid, 75)){
       //if (detectCollision(this.spaceship, asteroid, asteroid.getAvgDist())){
         this.asteroidList.remove(j-1);
       }
@@ -142,12 +144,9 @@ public void displayAsteroids(){
     //if (detectCollision(this.spaceship, asteroid, asteroid.getAvgDist())){
 
       if (asteroid.getFunctionType() == "asteroid") {
-        if (asteroid.getSizeType() == "boulder") {
-          this.asteroidList.remove(j-1);
-          this.score = 0;
-          this.lives --;
-          //this.bouldersDestroyed++;
-        }
+        this.asteroidList.remove(j-1);
+        this.score = 0;
+        this.lives --;
       } 
       else {
         this.asteroidList.remove(j-1);
@@ -162,6 +161,15 @@ public void displayAsteroids(){
   }
 }
 
+public void scatterBoulders() {
+  for (int i = this.destroyedBouldersList.size(); i > 0; i--) {
+    Asteroid boulder = this.destroyedBouldersList.get(i-1);
+    for(int j = 0; j < 5; j++) {
+      asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, boulder.getCenterX(), boulder.getCenterY(), "asteroid", "rock"));
+    }
+    this.destroyedBouldersList.remove(i-1);
+  }
+}
 
 //LAZER METHODS
 public void destroyLazers() {
@@ -179,12 +187,15 @@ public void displayLazers() {
       Asteroid asteroid = this.asteroidList.get(j-1);
       if (detectCollision(lazer, asteroid, 25)){
       //if (detectCollision(lazer, asteroid, asteroid.getAvgDist())){
+        if (asteroid.getSizeType() == "boulder") {
+          this.destroyedBouldersList.add(asteroid);
+        }
         this.asteroidList.remove(j-1);
         this.lazerList.remove(i-1);
         increaseScore(100);
         this.asteroidsDestroyedCounter ++;
         System.out.println(asteroid.getAvgRadius());
-
+        break;
       }
     }
     
