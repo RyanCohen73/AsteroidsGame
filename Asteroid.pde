@@ -26,7 +26,7 @@ class Asteroid extends Floater {
     this.rotationSpeed = (double) (Math.random()*4);
   }
   
-  Asteroid(int screenSizeX, int screenSizeY, double xCoord, double yCoord, String functionType, String sizeVariantType) {
+  Asteroid(int screenSizeX, int screenSizeY, double xCoord, double yCoord, String functionType, String sizeVariantType, int rColor, int gColor, int bColor) {
     this.screenSizeX = screenSizeX;
     this.screenSizeY = screenSizeY;
     this.xCoord = xCoord;
@@ -36,9 +36,9 @@ class Asteroid extends Floater {
     //initAsteroidVariant(1);
     initAsteroidVariant(round((float)(Math.random())), round((float)(Math.random())));
     
-    this.rColor = (int)(Math.random()*255);
-    this.gColor = (int)(Math.random()*255);
-    this.bColor = (int)(Math.random()*255);
+    this.rColor = rColor;
+    this.gColor = gColor;
+    this.bColor = bColor;
 
     
     this.myXspeed = genNegValue()*((double) 1 + Math.random()*1.5);

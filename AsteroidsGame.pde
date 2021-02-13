@@ -173,7 +173,7 @@ public void scatterBoulders() {
   for (int i = this.destroyedBouldersList.size(); i > 0; i--) {
     Asteroid boulder = this.destroyedBouldersList.get(i-1);
     for(int j = 0; j < 5; j++) {
-      asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, boulder.getCenterX(), boulder.getCenterY(), "asteroid", "rock"));
+      asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, boulder.getCenterX(), boulder.getCenterY(), "asteroid", "rock", boulder.getRColor(), boulder.getGColor(), boulder.getBColor()));
     }
     this.destroyedBouldersList.remove(i-1);
   }
