@@ -1,6 +1,8 @@
 public int screenSizeX, screenSizeY;
 public int screenArea;
 
+public String gameStatus;
+
 public int score = 0;
 public int highScore = 0;
 
@@ -19,6 +21,7 @@ public double asteroidDensity = 0.00002;
 public double textDensity = 0.00002;
 public int numofStars, numofAsteroids;
 
+Dashboard dashboard;
 Spaceship spaceship;
 Star[] stars;
 
@@ -42,6 +45,7 @@ public void clearScreen() {
 public void startGame() {
   clearScreen();
   createAsteroids(0);
+  this.gameStatus = "PLAYING";
   this.spaceship.startingPos();
   this.score = 0;
   this.level = 0;
@@ -54,11 +58,13 @@ public void startGame() {
 
 public void isGameOver() {
   if (this.lives == 0) {
+    this.gameStatus = "GAME OVER";
     this.isDead = true;
-    
+
+    /*/
     displayGameMessage("GAME OVER - Press ENTER to Play Again");
     displayStats();
-
+    //*/
     clearScreen();
     this.spaceship.startingPos();
     
@@ -78,14 +84,16 @@ public void increaseScore(int amount){
 
 public void islevelCleared() {
   if (this.asteroidList.size() == 0 && this.lives != 0) {
+    this.gameStatus = "LEVEL UP";
     this.canLevelUp = true;
-    displayGameMessage("Level Cleared! Press ENTER to Continue");
+    //displayGameMessage("Level Cleared! Press ENTER to Continue");
     clearScreen();
     this.spaceship.startingPos();
   }
 }
 
 public void levelUp() {
+  this.gameStatus = "PLAYING";
   this.level ++;
   increaseScore(200);
 
@@ -180,6 +188,7 @@ public void destroyLazers() {
 }
 
 public void displayLazers() {
+  maintainLazers();
   for (int i = this.lazerList.size(); i > 0; i--){
     Lazer lazer = this.lazerList.get(i-1);
     
@@ -201,14 +210,22 @@ public void displayLazers() {
     
     lazer.move();
     lazer.show();
-    if (lazer.getCenterX() <= 0 || lazer.getCenterX() >= this.screenSizeX ||
-      lazer.getCenterY() <= 0 || lazer.getCenterY() >= this.screenSizeY) {
-      this.lazerList.remove(i-1);
-    }
+    removeLazerWrapAround(lazer, i);
   }
   
+  
+}
+
+public void removeLazerWrapAround(Lazer lazer, int i) {
+  if (lazer.getCenterX() <= 0 || lazer.getCenterX() >= this.screenSizeX ||
+    lazer.getCenterY() <= 0 || lazer.getCenterY() >= this.screenSizeY) {
+    this.lazerList.remove(i-1);
+  }
+}
+
+public void maintainLazers() {
   if (this.lazerList.size() >= 5) {
-        this.lazerList.remove(0);
+    this.lazerList.remove(0);
   }
 }
 /*/
@@ -337,12 +354,14 @@ public void setup() {
   this.screenSizeX = width;
   this.screenSizeY = height;
   this.screenArea = this.screenSizeX*this.screenSizeY;
+  
 
   this.numofStars = (int)(this.screenArea*this.starDensity);
   this.numofAsteroids = (int)(this.screenArea*this.asteroidDensity);
 
   this.spaceship = new Spaceship(width, height);
   this.stars = new Star[(this.numofStars)];
+  this.gameStatus = "PLAYING";
   
   createStars();
   createAsteroids(0);
@@ -355,7 +374,9 @@ public void draw() {
   displayLazers();
   displayAsteroids();
   displayShield();
-  displayDashboard();
+  //displayDashboard();
+  this.dashboard = new Dashboard(this.gameStatus, this.screenSizeX, this.screenSizeY, this.screenArea, this.textDensity, this.spaceship, this.score, this.highScore, this.lives, this.level, this.shieldsRemaining, this.asteroidsDestroyedCounter, this.shotsFiredCounter);
+  this.dashboard.display();
 
   this.spaceship.move();
   this.spaceship.show();
