@@ -1,11 +1,16 @@
-public int score = 0;
-public int highScore = 0;
-public int level = 0;
-public int lives = 5;
-public boolean canLevelUp = false;
-public boolean isDead = false;
 public int screenSizeX, screenSizeY;
 public int screenArea;
+
+public int score = 0;
+public int highScore = 0;
+
+public int level = 0;
+public int lives = 5;
+public int shieldsRemaining = 5;
+public boolean canLevelUp = false;
+public boolean isDead = false;
+
+
 
 public int bouldersDestroyed = 0;
 public int bouldersDestroyedCheck = 0;
@@ -24,6 +29,8 @@ Star[] stars;
 ArrayList<Asteroid> asteroidList = new ArrayList<Asteroid>();
 ArrayList<Asteroid> extraLifeList = new ArrayList<Asteroid>();
 
+ArrayList<Shield> shieldList = new ArrayList<Shield>();
+
 ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
 //GAME METHODS 
@@ -31,26 +38,29 @@ ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
 public void startGame() {
   destroyLazers();
+  destroyShields();
   destroyAsteroids();
   createAsteroids(0);
   this.spaceship.startingPos();
   this.score = 0;
   this.level = 0;
   this.lives = 5;
+  this.shieldsRemaining = 5;
   this.canLevelUp = false;
   this.isDead = false;
   this.asteroidsDestroyedCounter = 0;
 }
 
-public void loseGame() {
+public void isGameOver() {
   if (this.lives == 0) {
     this.isDead = true;
     
-    displayGameMessage("You Died. Press ENTER to Play Again");
+    displayGameMessage("GAME OVER\nPress ENTER to Play Again");
     displayStats();
 
     destroyAsteroids();
     destroyLazers();
+    destroyShields();
     this.spaceship.startingPos();
     
   }
@@ -60,18 +70,19 @@ public void instantKill() {
   this.lives = 0;
 }
 
-public void increaseScore(int input){
+public void increaseScore(int amount){
   if (score == highScore){
-    this.highScore += input;
+    this.highScore += amount;
   }
-  this.score += input;
+  this.score += amount;
 }
 
-public void levelCleared() {
+public void islevelCleared() {
   if (this.asteroidList.size() == 0 && this.lives != 0) {
     this.canLevelUp = true;
     displayGameMessage("Level Cleared! Press ENTER to Continue");
     destroyLazers();
+    destroyShields();
     this.spaceship.startingPos();
   }
 }
@@ -81,6 +92,7 @@ public void levelUp() {
   increaseScore(200);
 
   destroyLazers();
+  destroyShields();
   createAsteroids(this.level);
   
   //this.spaceship.startingPos();
@@ -120,7 +132,15 @@ public void destroyAsteroids() {
 public void displayAsteroids(){
   for (int j = this.asteroidList.size(); j > 0; j--) {
     Asteroid asteroid = this.asteroidList.get(j-1);
-    if (detectCollision(this.spaceship, asteroid, 25)){
+    if (this.shieldList.size() == 1) {
+      if (detectCollision(this.shieldList.get(0), asteroid, 150)){
+      //if (detectCollision(this.spaceship, asteroid, asteroid.getAvgDist())){
+        this.asteroidList.remove(j-1);
+      }
+      asteroid.move();
+      asteroid.show();
+    }
+    else if (detectCollision(this.spaceship, asteroid, 25)){
     //if (detectCollision(this.spaceship, asteroid, asteroid.getAvgDist())){
 
       if (asteroid.getFunctionType() == "asteroid") {
@@ -178,8 +198,8 @@ public void displayLazers() {
     }
   }
   
-  if (lazerList.size() >= 5) {
-        lazerList.remove(0);
+  if (this.lazerList.size() >= 5) {
+        this.lazerList.remove(0);
   }
 }
 /*/
@@ -208,6 +228,42 @@ public void displayLazers(Asteroid asteroid, int j) {
   }
 }
 //*/
+
+//SHIELD METHODS
+public void destroyShields() {
+  if (this.shieldList.size() > 0) {
+    this.shieldList.remove(0);
+  }
+}
+
+public void displayShield() {
+  for (Shield shield : this.shieldList) {
+    shield.show();
+  }
+  if (shieldList.size() > 0) {
+    this.spaceship.stopMove();
+    this.destroyLazers();  
+  }
+  maintainShield();
+}
+
+public void deployShield() {
+  this.shieldList.add(new Shield(this.spaceship));
+  this.shieldsRemaining--;
+  
+}
+
+public void maintainShield(){
+  if (this.shieldList.size() > 1) {
+    this.shieldList.remove(1);
+    this.shieldsRemaining++;
+  }
+}
+
+
+
+
+
 
 public boolean detectCollision(Floater floaterA, Floater floaterB, int distance) {
   return dist( (float)floaterA.getCenterX(),
@@ -246,13 +302,13 @@ public void displayStats() {
   createStat("shots fired", this.shotsFiredCounter, 1);
 }
 
-public void createText(String label, double input, int rowPos, int sizeAfter) {
+public void createDashboard(String label, double input, int rowPos, int sizeAfter) {
   fill(255, 255, 255);
   textSize(15);
   text(label + ": " + nf((float)input, 0, sizeAfter), 20, 20 + rowPos*15);
 }
 
-public void displayText() {
+public void displayDashboard() {
   createText("X Position", this.spaceship.getCenterX(), 0, 2) ;
   createText("Y Position", this.spaceship.getCenterY(), 1, 2);
   createText("Direction", this.spaceship.getPointDirection(), 2, 2);
@@ -262,6 +318,7 @@ public void displayText() {
   createText("Score", (double) this.score, 7, 0);
   createText("Lives Remaining", (double) this.lives, 9, 0);
   createText("Level", (double) this.level+1, 10, 0);
+  createText("Shields Remaining", (double) this.shieldsRemaining, 11, 0);
 }
 
 public void setup() {
@@ -288,13 +345,14 @@ public void draw() {
   displayStars();
   displayLazers();
   displayAsteroids();
-  displayText();
+  displayShield();
+  displayDashboard();
 
   this.spaceship.move();
   this.spaceship.show();
   
-  loseGame();
-  levelCleared();
+  isGameOver();
+  islevelCleared();
 }
 
 
@@ -331,6 +389,13 @@ public void keyPressed() {
   if (key == ' ') {
     this.lazerList.add(new Lazer(this.spaceship));
     this.shotsFiredCounter++;
+  }
+  if (key == 'c' && this.shieldsRemaining != 0) {
+    deployShield();
+  }
+  
+  if (key == 'v' && this.shieldList.size() != 0) {
+    destroyShields();
   }
 
   
