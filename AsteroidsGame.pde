@@ -11,10 +11,6 @@ public boolean canLevelUp = false;
 public boolean isDead = false;
 
 
-
-public int bouldersDestroyed = 0;
-public int bouldersDestroyedCheck = 0;
-
 public int asteroidsDestroyedCounter = 0;
 public int shotsFiredCounter = 0;
 
@@ -27,6 +23,8 @@ Spaceship spaceship;
 Star[] stars;
 
 ArrayList<Asteroid> asteroidList = new ArrayList<Asteroid>();
+ArrayList<Asteroid> destroyedBouldersList = new ArrayList<Asteroid>();
+
 ArrayList<Asteroid> extraLifeList = new ArrayList<Asteroid>();
 
 ArrayList<Shield> shieldList = new ArrayList<Shield>();
@@ -35,11 +33,14 @@ ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
 //GAME METHODS 
 
-
-public void startGame() {
+public void clearScreen() {
   destroyLazers();
   destroyShields();
   destroyAsteroids();
+}
+
+public void startGame() {
+  clearScreen();
   createAsteroids(0);
   this.spaceship.startingPos();
   this.score = 0;
@@ -58,9 +59,7 @@ public void isGameOver() {
     displayGameMessage("GAME OVER\nPress ENTER to Play Again");
     displayStats();
 
-    destroyAsteroids();
-    destroyLazers();
-    destroyShields();
+    clearScreen();
     this.spaceship.startingPos();
     
   }
@@ -81,8 +80,7 @@ public void islevelCleared() {
   if (this.asteroidList.size() == 0 && this.lives != 0) {
     this.canLevelUp = true;
     displayGameMessage("Level Cleared! Press ENTER to Continue");
-    destroyLazers();
-    destroyShields();
+    clearScreen();
     this.spaceship.startingPos();
   }
 }
@@ -148,7 +146,7 @@ public void displayAsteroids(){
           this.asteroidList.remove(j-1);
           this.score = 0;
           this.lives --;
-          this.bouldersDestroyed++;
+          //this.bouldersDestroyed++;
         }
       } 
       else {
