@@ -12,7 +12,7 @@ class Dashboard {
     this.textDensity = textDensity;
     this.screenArea = screenArea;
     this.spaceship = spaceship;
-    this.score = score;
+    this.score = score; 
     this.highScore = highScore;
     this.lives = lives;
     this.level = level;
