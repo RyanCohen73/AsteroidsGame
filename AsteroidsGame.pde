@@ -309,16 +309,16 @@ public void createDashboard(String label, double input, int rowPos, int sizeAfte
 }
 
 public void displayDashboard() {
-  createText("X Position", this.spaceship.getCenterX(), 0, 2) ;
-  createText("Y Position", this.spaceship.getCenterY(), 1, 2);
-  createText("Direction", this.spaceship.getPointDirection(), 2, 2);
-  createText("X Speed", this.spaceship.getXspeed(), 3, 2);
-  createText("Y Speed", this.spaceship.getYspeed(), 4, 2);
-  createText("High Score", (double) this.highScore, 6, 0);
-  createText("Score", (double) this.score, 7, 0);
-  createText("Lives Remaining", (double) this.lives, 9, 0);
-  createText("Level", (double) this.level+1, 10, 0);
-  createText("Shields Remaining", (double) this.shieldsRemaining, 11, 0);
+  createDashboard("X Position", this.spaceship.getCenterX(), 0, 2) ;
+  createDashboard("Y Position", this.spaceship.getCenterY(), 1, 2);
+  createDashboard("Direction", this.spaceship.getPointDirection(), 2, 2);
+  createDashboard("X Speed", this.spaceship.getXspeed(), 3, 2);
+  createDashboard("Y Speed", this.spaceship.getYspeed(), 4, 2);
+  createDashboard("High Score", (double) this.highScore, 6, 0);
+  createDashboard("Score", (double) this.score, 7, 0);
+  createDashboard(" Lives Remaining", (double) this.lives, 9, 0);
+  createDashboard("Level", (double) this.level+1, 10, 0);
+  createDashboard("Shields Remaining", (double) this.shieldsRemaining, 11, 0);
 }
 
 public void setup() {
