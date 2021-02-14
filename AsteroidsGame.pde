@@ -10,6 +10,7 @@ public int highScore = 0;
 public int level = 0;
 public int lives = 5;
 public int shieldsRemaining = 5;
+public boolean isShieldDeployed = false;
 public boolean canLevelUp = false;
 public boolean isDead = false;
 public boolean isBonusLife = false;
@@ -26,14 +27,14 @@ public int numofStars, numofAsteroids;
 Dashboard dashboard;
 Spaceship spaceship;
 Star[] stars;
+Shield shield;
 
 ArrayList<Asteroid> asteroidList = new ArrayList<Asteroid>();
 ArrayList<Asteroid> destroyedBouldersList = new ArrayList<Asteroid>();
 
 ArrayList<Asteroid> extraLifeList = new ArrayList<Asteroid>();
 
-ArrayList<Shield> shieldList = new ArrayList<Shield>();
-
+//ArrayList<Shield> shieldList = new ArrayList<Shield>();
 
 ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
@@ -41,7 +42,7 @@ ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
 public void clearScreen() {
   destroyLazers();
-  destroyShields();
+  destroyShield();
   destroyAsteroids();
 }
 
@@ -101,7 +102,7 @@ public void levelUp() {
   increaseScore(200);
 
   destroyLazers();
-  destroyShields();
+  destroyShield();
   createAsteroids(this.level);
   create1UP();
   
@@ -171,8 +172,8 @@ public void displayAsteroids(){
 
   for (int j = this.asteroidList.size(); j > 0; j--) {
     Asteroid asteroid = this.asteroidList.get(j-1);
-    if (this.shieldList.size() == 1) {
-      if (detectCollision(this.shieldList.get(0), asteroid, 75)){
+    if (this.shield != null) {
+      if (detectCollision(this.shield, asteroid, 75)){
       //if (detectCollision(this.spaceship, asteroid, asteroid.getAvgDist())){
         this.asteroidList.remove(j-1);
       }
@@ -288,35 +289,28 @@ public void displayLazers(Asteroid asteroid, int j) {
 //*/
 
 //SHIELD METHODS
-public void destroyShields() {
-  if (this.shieldList.size() > 0) {
-    this.shieldList.remove(0);
-  }
+public void destroyShield() {
+  this.shield = null;
+  this.shieldsRemaining--;
 }
 
 public void displayShield() {
-  for (Shield shield : this.shieldList) {
-    shield.show();
-  }
-  if (shieldList.size() > 0) {
+  if (this.shield != null) { 
+    this.shield.show();
     this.spaceship.stopMove();
-    this.destroyLazers();  
+    destroyLazers();  
   }
-  maintainShield();
 }
 
 public void deployShield() {
-  this.shieldList.add(new Shield(this.spaceship));
-  this.shieldsRemaining--;
-  
-}
-
-public void maintainShield(){
-  if (this.shieldList.size() > 1) {
-    this.shieldList.remove(1);
-    this.shieldsRemaining++;
+  if (this.isShieldDeployed) {
+    this.shield = new Shield(this.spaceship);
+  } 
+  else {
+    destroyShield();
   }
 }
+
 
 
 
@@ -453,12 +447,16 @@ public void keyPressed() {
     this.lazerList.add(new Lazer(this.spaceship));
     this.shotsFiredCounter++;
   }
-  if (key == 'c' && this.shieldsRemaining != 0) {
+  if (key == 'c' && this.shieldsRemaining != 0) { 
+    this.isShieldDeployed = true;
     deployShield();
   }
+ 
   
-  if (key == 'v' && this.shieldList.size() != 0) {
-    destroyShields();
+
+  if (key == 'v') {
+    this.isShieldDeployed = false;
+    deployShield();
   }
 
   
@@ -475,3 +473,10 @@ public void keyPressed() {
     destroyLazers();
   }
 }
+
+public void keyReleased() {
+    if (this.isShieldDeployed){
+      this.isShieldDeployed = false;
+      deployShield();
+    }
+  }
