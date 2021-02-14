@@ -57,6 +57,7 @@ public void startGame() {
   this.shieldsRemaining = 5;
   this.canLevelUp = false;
   this.isDead = false;
+  this.isShieldDeployed = false;
   this.asteroidsDestroyedCounter = 0;
 }
 
@@ -291,7 +292,7 @@ public void displayLazers(Asteroid asteroid, int j) {
 //SHIELD METHODS
 public void destroyShield() {
   this.shield = null;
-  this.shieldsRemaining--;
+  
 }
 
 public void displayShield() {
@@ -308,6 +309,7 @@ public void deployShield() {
   } 
   else {
     destroyShield();
+    this.shieldsRemaining--;
   }
 }
 
