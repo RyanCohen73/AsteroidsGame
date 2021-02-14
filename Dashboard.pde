@@ -3,9 +3,9 @@ class Dashboard {
   protected int screenSizeX, screenSizeY, screenArea;
   protected double textDensity;
   protected Spaceship spaceship;
-  protected int score, highScore, lives, level, shieldsRemaining, asteroidsDestroyedCounter, shotsFiredCounter;
+  protected int score, lastScore, highScore, lives, level, shieldsRemaining, asteroidsDestroyedCounter, shotsFiredCounter;
 
-  Dashboard(String gameStatus, int screenSizeX, int screenSizeY, int screenArea, double textDensity, Spaceship spaceship, int score, int highScore, int lives, int level, int shieldsRemaining, int asteroidsDestroyedCounter, int shotsFiredCounter) {
+  Dashboard(String gameStatus, int screenSizeX, int screenSizeY, int screenArea, double textDensity, Spaceship spaceship, int score, int lastScore, int highScore, int lives, int level, int shieldsRemaining, int asteroidsDestroyedCounter, int shotsFiredCounter) {
     this.gameStatus = gameStatus;
     this.screenSizeX = screenSizeX;
     this.screenSizeY = screenSizeY;
@@ -13,6 +13,7 @@ class Dashboard {
     this.screenArea = screenArea;
     this.spaceship = spaceship;
     this.score = score; 
+    this.lastScore = lastScore;
     this.highScore = highScore;
     this.lives = lives;
     this.level = level;
@@ -65,7 +66,7 @@ class Dashboard {
 
   public void displayStats() {
     //text();
-    createStat("score", this.score, 0);
+    createStat("final score", this.lastScore, 0);
     createStat("highscore", this.highScore, 1);
     createStat("level", this.level, 3);
     createStat("asteroids destroyed", this.asteroidsDestroyedCounter, 4);
@@ -90,6 +91,9 @@ class Dashboard {
     }
     else if (this.gameStatus == "LEVEL UP") {
       displayGameMessage("Level Cleared! Press ENTER to Continue");
+    }
+    else if (this.gameStatus == "BONUS LIFE") {
+      displayGameMessage("+1 life");
     }
     else if (this.gameStatus == "GAME OVER") {
       displayGameMessage("GAME OVER - Press ENTER to Play Again");

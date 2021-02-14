@@ -4,6 +4,7 @@ public int screenArea;
 public String gameStatus;
 
 public int score = 0;
+public int lastScore = 0;
 public int highScore = 0;
 
 public int level = 0;
@@ -11,6 +12,7 @@ public int lives = 5;
 public int shieldsRemaining = 5;
 public boolean canLevelUp = false;
 public boolean isDead = false;
+public boolean isBonusLife = false;
 
 
 public int asteroidsDestroyedCounter = 0;
@@ -31,6 +33,7 @@ ArrayList<Asteroid> destroyedBouldersList = new ArrayList<Asteroid>();
 ArrayList<Asteroid> extraLifeList = new ArrayList<Asteroid>();
 
 ArrayList<Shield> shieldList = new ArrayList<Shield>();
+
 
 ArrayList<Lazer> lazerList = new ArrayList<Lazer>();
 
@@ -132,6 +135,28 @@ public void create1UP() {
   asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, "1UP"));
 }
 
+public void display1Up() {
+  if (this.isBonusLife) {
+    this.gameStatus = "BONUS LIFE";
+    for (int i = 100; i >= 0; i--){
+      if(i == 0) {
+        this.gameStatus = "PLAYING";
+        this.isBonusLife = false;
+      }
+    }
+  }
+}
+
+public void scatterBoulder() {
+  for (int i = this.destroyedBouldersList.size(); i > 0; i--) {
+    Asteroid boulder = this.destroyedBouldersList.get(i-1);
+    for(int j = 0; j < 5; j++) {
+      asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, boulder.getCenterX(), boulder.getCenterY(), "asteroid", "rock", boulder.getRColor(), boulder.getGColor(), boulder.getBColor()));
+    }
+    this.destroyedBouldersList.remove(i-1);
+  }
+}
+
 public void destroyAsteroids() {
   for (int i = this.asteroidList.size(); i > 0; i--){
     Asteroid asteroid = this.asteroidList.get(i-1);
@@ -141,7 +166,8 @@ public void destroyAsteroids() {
 }
 
 public void displayAsteroids(){
-  scatterBoulders();
+  scatterBoulder();
+  display1Up();
 
   for (int j = this.asteroidList.size(); j > 0; j--) {
     Asteroid asteroid = this.asteroidList.get(j-1);
@@ -158,12 +184,15 @@ public void displayAsteroids(){
 
       if (asteroid.getFunctionType() == "asteroid") {
         this.asteroidList.remove(j-1);
+        int score = this.score;
+        this.lastScore = score;
         this.score = 0;
         this.lives --;
       } 
       else {
         this.asteroidList.remove(j-1);
         this.lives += 1;
+        display1Up();
       }
     }
     else {
@@ -174,15 +203,7 @@ public void displayAsteroids(){
   }
 }
 
-public void scatterBoulders() {
-  for (int i = this.destroyedBouldersList.size(); i > 0; i--) {
-    Asteroid boulder = this.destroyedBouldersList.get(i-1);
-    for(int j = 0; j < 5; j++) {
-      asteroidList.add(new Asteroid(this.screenSizeX, this.screenSizeY, boulder.getCenterX(), boulder.getCenterY(), "asteroid", "rock", boulder.getRColor(), boulder.getGColor(), boulder.getBColor()));
-    }
-    this.destroyedBouldersList.remove(i-1);
-  }
-}
+
 
 //LAZER METHODS
 public void destroyLazers() {
@@ -205,6 +226,7 @@ public void displayLazers() {
           this.destroyedBouldersList.add(asteroid);
         }
         else if (asteroid.getFunctionType() == "1UP") {
+          this.isBonusLife = true;
           this.lives ++;
           this.asteroidsDestroyedCounter --;
           increaseScore(-100);
@@ -384,8 +406,9 @@ public void draw() {
   displayLazers();
   displayAsteroids();
   displayShield();
+  display1Up();
   //displayDashboard();
-  this.dashboard = new Dashboard(this.gameStatus, this.screenSizeX, this.screenSizeY, this.screenArea, this.textDensity, this.spaceship, this.score, this.highScore, this.lives, this.level, this.shieldsRemaining, this.asteroidsDestroyedCounter, this.shotsFiredCounter);
+  this.dashboard = new Dashboard(this.gameStatus, this.screenSizeX, this.screenSizeY, this.screenArea, this.textDensity, this.spaceship, this.score, this.lastScore, this.highScore, this.lives, this.level, this.shieldsRemaining, this.asteroidsDestroyedCounter, this.shotsFiredCounter);
   this.dashboard.display();
 
   this.spaceship.move();
