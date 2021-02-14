@@ -451,15 +451,6 @@ public void keyPressed() {
     this.isShieldDeployed = true;
     deployShield();
   }
- 
-  
-
-  if (key == 'v') {
-    this.isShieldDeployed = false;
-    deployShield();
-  }
-
-  
   if (key == '1') {
     startGame();
   }
